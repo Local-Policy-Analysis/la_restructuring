@@ -25,3 +25,5 @@ restructure <- function(df, from_year, to_year, by = c("ons_code" = str_c("ons_c
 
 df <- read_excel("./to_restructure.xlsx")
 df <- restructure(df, 2013, 2023)
+
+write_csv(df, "test.csv")
