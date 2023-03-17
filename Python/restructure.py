@@ -16,19 +16,17 @@ def restructure(df, from_year, to_year):
     # to do: LA names were taken from ONS code history database but there are duplicate names since for e.g. Essex refers to the SC and the FRA
     '''
     assert to_year > from_year, 'to_year is less than from_year'
-    url = 'https://github.com/JamesCaddick/la_strucuture_lookup/blob/main/la_structure.xlsx?raw=true'
-    df_lookup = pd.read_excel(url)
-    dict_ons = pd.Series(df_lookup[f'ons_code_{to_year}'].values, index=df_lookup[f'ons_code_{from_year}']).to_dict()
-    dict_ecode = pd.Series(df_lookup[f'ecode_{to_year}'].values, index=df_lookup[f'ecode_{from_year}']).to_dict()
-    df = (df
-          .replace(dict_ons).replace(dict_ecode)
-          .merge(df_lookup[[f'class_{to_year}', f'ons_code_{to_year}', f'authority_{to_year}']].drop_duplicates(),
+    df_lookup = pd.read_table("./bin/la_structure.tsv")
+    df = (df[['ons_code']]
+          .merge(df_lookup[[f'ons_code_{from_year}', f'ecode_{from_year}',f'authority_{from_year}',f'class_{from_year}',f'ons_code_{to_year}',f'ecode_{to_year}',f'authority_{to_year}',f'class_{to_year}']]
+                 .drop_duplicates(),
                  left_on='ons_code',
-                 right_on=f'ons_code_{to_year}',
+                 right_on=f'ons_code_{from_year}',
                  how='left')
-          .drop(columns=f'ons_code_{to_year}')
-          )
+          ).drop(columns = f'ons_code_{from_year}')
     return df
 
-df = pd.read_excel('to_restructure.xlsx')
+df = pd.read_excel('./to_restructure.xlsx')
 df = restructure(df, 2013, 2023)
+
+df.to_csv("testp.csv")
