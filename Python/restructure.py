@@ -2,8 +2,9 @@ import pandas as pd
 
 def restructure(df, from_year, to_year):
     '''
-    Function to change the local authority structure from a given start point to a new year's structure. Will replace old
-    ons code and ecode to new codes, and appends columns with new LA name and LA class
+    Function to change the local authority structure from a given start point to a new year's structure. Appends new columns containing the
+    post restructuring ons codes, ecodes, authority and class variables. File being restructured must contain a column of ons codes with 
+    the variable name "ons_code"
     
     df: dataframe to be restructured
     from_year: integer representing the financial year of the starting LA structure. Note financial year 2022-23 would be 2022. 
