@@ -16,7 +16,8 @@ def restructure(df, from_year, to_year):
     # to do: LA names were taken from ONS code history database but there are duplicate names since for e.g. Essex refers to the SC and the FRA
     '''
     assert to_year > from_year, 'to_year is less than from_year'
-    df_lookup = pd.read_table("./bin/la_structure.tsv")
+    f = "https://raw.githubusercontent.com/Local-Policy-Analysis/la_restructuring/main/bin/la_structure.tsv"
+    df_lookup = pd.read_table(f)
     df = (df[['ons_code']]
           .merge(df_lookup[[f'ons_code_{from_year}', f'ecode_{from_year}',f'authority_{from_year}',f'class_{from_year}',f'ons_code_{to_year}',f'ecode_{to_year}',f'authority_{to_year}',f'class_{to_year}']]
                  .drop_duplicates(),

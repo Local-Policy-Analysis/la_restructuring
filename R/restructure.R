@@ -3,6 +3,7 @@ library(readr)
 library(readxl)
 
 restructure <- function(df, from_year, to_year, by = c("ons_code" = str_c("ons_code_",from_year))){
+    loc <- "https://raw.githubusercontent.com/Local-Policy-Analysis/la_restructuring/main/bin/la_structure.tsv"
     stopifnot(from_year < to_year)
 
     stopifnot(
@@ -10,7 +11,8 @@ restructure <- function(df, from_year, to_year, by = c("ons_code" = str_c("ons_c
         typeof(to_year <- toString(to_year)) == "character"
     )
 
-    dfLookup <- read_tsv("./bin/la_structure.tsv") |>
+
+    dfLookup <- read_tsv(url(loc)) |>
         select(STATUS, contains(from_year), contains(to_year))
 
     fails <- anti_join(df, dfLookup, by = by)
