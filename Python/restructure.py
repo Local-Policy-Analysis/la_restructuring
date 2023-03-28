@@ -27,7 +27,7 @@ def restructure(df, from_year, to_year):
           ).drop(columns = f'ons_code_{from_year}')
     return df
 
-df = pd.read_excel('./to_restructure.xlsx')
+df = pd.read_excel('./to_restructure.xlsx', index=False)
 df = restructure(df, 2013, 2023)
 
 df.to_csv("testp.csv")
